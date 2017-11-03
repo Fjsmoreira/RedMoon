@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Phaser Workshop</title>
+    <style>* { padding: 0; margin: 0; }</style>
+    <script src="js/phaser.js"></script>
+</head>
+<body>
+<script>
+      var game = new Phaser.Game(600, 800, Phaser.AUTO, null, {
+      preload: preload, create: create, update: update
+    }); 
+
+    var bmd;
+    var bmdDest;
+    var dragging = false;
+    var toFollow = [];
+    var moony;
+    var speed = 5
+    var walkAnimation;  
+    var backwardsWalkAnimation;
+    var leftWalkAnimation;  
+    var rightWalkAnimation;  
+    var isWalking = false;
+    var isbackwards = false;
+    var isleft = false;
+    var isright = false;
+    var isFollowing = false;
+    var backgroundColor = "#eee";
+    var itMoved = false;
+    function loadSpritesheets(){
+        game.load.spritesheet('moony', 'graphics/hero.png', 16,16,-1,0,0);
+    }
+
+    function setupBitmapData(){
+        bmd = game.make.bitmapData(game.width, game.height);
+        bmdDest = game.make.bitmapData(game.width, game.height);
+        bmd.dirty = true;
+        bmdDest.dirty = true;
+        bmdDest.addToWorld();
+        turnLightsOn();
+    }
+
+    function setupInput(){
+        game.input.keyboard.addKeyCapture([
+                Phaser.Keyboard.LEFT,
+                Phaser.Keyboard.RIGHT,
+                Phaser.Keyboard.UP,
+                Phaser.Keyboard.DOWN,
+                Phaser.Keyboard.SPACEBAR
+            ]);
+    }
+
+    function setupAnimations(){
+        walkAnimation = moony.animations.add('walk',[3,4,5], 10, true);
+        leftWalkAnimation = moony.animations.add('leftWalk',[0,1,2], 10, true);
+        backwardsWalkAnimation = moony.animations.add('backwardsWalk',[6,7,8], 10, true);
+        rightWalkAnimation = moony.animations.add('rightWalk',[0,1,2], 10, true);
+    }
+
+    function turnLightsOff(){
+        bmdDest.fill(01, 01, 01, 10);
+    }
+
+    function turnLightsOn(){
+
+        bmdDest.fill(99, 99, 99, 10);
+    }
+    function preload() {
+
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.pageAlignHorizontally = true;
+        game.scale.pageAlignVertically = true;
+        game.stage.backgroundColor = backgroundColor;
+        loadSpritesheets();
+    }
+
+    function create() {
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+        
+        setupBitmapData();
+
+        var moony = setupScott();
+        
+        game.physics.enable(moony,Phaser.Physics.ARCADE);
+        moony.body.collideWorldBounds = true;
+        
+        setupInput();
+        setupAnimations();
+    }
+
+    function update() {      
+
+        if(itMoved){
+            turnLightsOff();
+        }
+        else{
+            turnLightsOn();
+        }
+        
+        input();
+       
+        bmdDest.copy(bmd, 0, 0);
+
+    }
+
+    function setupScott(){
+        moony = game.add.sprite(game.world.width*0.5, game.world.height-5, 'moony');
+        moony.anchor.set(0.5,1);
+        moony.inputEnabled = true;
+        return moony;
+    }  
+
+    function input(){
+
+        if(isFollowing && toFollow.length > 0){
+            moony.x = toFollow.shift().x;
+            moony.y = toFollow.shift().y;
+        }
+        
+        if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
+        {
+            itMoved = false;
+            isFollowing = true;
+            for(var i = 0;i<toFollow.length;i++){
+                console.log(toFollow[i]);
+            }
+        }
+
+        if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
+        {
+            itMoved = true;
+            if(!isWalking){
+                walkAnimation.play();
+                isWalking = true;
+            }
+            
+            moony.y -= speed;
+            toFollow.push({x:moony.x,y:moony.y});
+            bmd.circle(moony.x, moony.y, 1, backgroundColor);
+            
+        }
+        else{
+            isWalking = false;
+            rightWalkAnimation.stop();  
+        }
+        if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+            itMoved = true;
+            if(!isbackwards){
+                backwardsWalkAnimation.play();
+                isbackwards = true;
+            }
+            moony.y += speed;
+            toFollow.push({x:moony.x,y:moony.y});
+            bmd.circle(moony.x, moony.y, 1, backgroundColor);
+        }
+        else{
+            isbackwards = false;
+            backwardsWalkAnimation.stop();  
+        }
+        if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+            itMoved = true;
+            if(!isleft){
+                leftWalkAnimation.play();
+                isleft = true;
+            }
+            
+            moony.x -= speed;
+            toFollow.push({x:moony.x,y:moony.y});
+            bmd.circle(moony.x, moony.y, 1, backgroundColor);
+        }
+        else{
+            isleft = false;
+            leftWalkAnimation.stop();      
+        }
+        if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+            itMoved = true;
+            if(!isright){
+                rightWalkAnimation.play();
+                
+                isright = true;
+            }
+            moony.x += speed;
+            toFollow.push({x:moony.x,y:moony.y});
+            bmd.circle(moony.x, moony.y, 1, backgroundColor);
+        }
+        else{
+            isright = false;
+            rightWalkAnimation.stop();  
+        }
+    }
+
+</script>
