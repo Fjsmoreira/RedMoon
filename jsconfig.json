@@ -1,7 +1,9 @@
 {
-    "compilerOptions":{
-        "module": "commonjs",
+    "compilerOptions": {
+        "target": "ES6",
         "checkJs": true
-        
-    }
+    },
+    "include": [
+        "app/**/*"
+    ]
 }

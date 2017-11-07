@@ -1,0 +1,23 @@
+{
+  "name": "redmoon",
+  "version": "1.0.0",
+  "description": "Phaser game",
+  "main": "app/redmoon.html",
+  "dependencies": {},
+  "devDependencies": {
+    "write-file-webpack-plugin": "^4.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fjsmoreira/RedMoon.git"
+  },
+  "author": "Fernando Moreira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fjsmoreira/RedMoon/issues"
+  },
+  "homepage": "https://github.com/Fjsmoreira/RedMoon#readme"
+}
