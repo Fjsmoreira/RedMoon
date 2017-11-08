@@ -6,10 +6,9 @@ import { update } from "../js/update.js";
 export var RedMoon = RedMoon || {};
 RedMoon.animations = {};
 
-RedMoon.game = new Phaser.Game(200, 800, Phaser.AUTO, null, {
+RedMoon.game = new Phaser.Game(480, 640, Phaser.AUTO, null, {
     preload: preload, create: create, update: update
 }); 
-
 
 RedMoon.hero = {};
 

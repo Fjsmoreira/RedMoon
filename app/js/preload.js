@@ -4,7 +4,7 @@ import {RedMoon} from "../js/game.js";
 export function preload() {
 
     setupGameScreen();
-    loadSpritesheets();
+    loadGraphics();
 }
 
 function  setupGameScreen(){
@@ -14,6 +14,8 @@ function  setupGameScreen(){
     RedMoon.game.stage.backgroundColor = "#eee";
 }
 
-function loadSpritesheets(){
-    RedMoon.game.load.spritesheet('hero', 'graphics/hero.png', 62,62,-1,0,0);
+function loadGraphics(){
+    RedMoon.game.load.tilemap('level1', 'graphics/tiledmap/FirstLevelMap.json', null, Phaser.Tilemap.TILED_JSON);
+    RedMoon.game.load.image('gameTiles', 'graphics/tiledmap/tilesetHouse.png');
+    RedMoon.game.load.spritesheet('hero', 'graphics/hero.png', 64,64,-1,0,0);
 }

@@ -9,11 +9,11 @@ var itMoved = false;
 
 
 function turnLightsOff(){
-    RedMoon.bmdDest.fill(1, 1, 1, 10);
+    // RedMoon.bmdDest.fill(1, 1, 1, 10);
 }
 
 function turnLightsOn(){
-    RedMoon.bmdDest.fill(99, 99, 99, 10);
+    // RedMoon.bmdDest.fill(99, 99, 99, 10);
 }
 
 export function update() {      
@@ -27,7 +27,7 @@ export function update() {
     
     input();
     
-    RedMoon.bmdDest.copy(RedMoon.bmd, 0, 0);
+    // RedMoon.bmdDest.copy(RedMoon.bmd, 0, 0);
 
 }
 
@@ -50,45 +50,31 @@ function input(){
     if (RedMoon.game.input.keyboard.isDown(Phaser.Keyboard.UP))
     {
         itMoved = true;
-        RedMoon.animations.frontWalk.play();
+        RedMoon.hero.animations.play("frontWalk");
         RedMoon.hero.body.velocity.y = (-speed);
         toFollow.push({x:RedMoon.hero.x,y:RedMoon.hero.y});
-        RedMoon.bmd.circle(RedMoon.hero.x, RedMoon.hero.y, 1, backgroundColor);
         
     }
-    else{
-        RedMoon.animations.frontWalk.stop();  
-    }
-    if(RedMoon.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+    else if(RedMoon.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
         itMoved = true;
-        RedMoon.animations.backWalk.play();
+        RedMoon.hero.animations.play("backWalk");
         RedMoon.hero.body.velocity.y = speed;
         toFollow.push({x:RedMoon.hero.x,y:RedMoon.hero.y});
-        RedMoon.bmd.circle(RedMoon.hero.x, RedMoon.hero.y, 1, backgroundColor);
     }
-    else{
-        RedMoon.animations.backWalk.stop();  
-    }
-    if(RedMoon.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
-
+    else if(RedMoon.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
         itMoved = true;
-        RedMoon.animations.leftWalk.play();
         RedMoon.hero.body.velocity.x = (-speed);
+        RedMoon.hero.animations.play("leftWalk");
         toFollow.push({x:RedMoon.hero.x,y:RedMoon.hero.y});
-        RedMoon.bmd.circle(RedMoon.hero.x, RedMoon.hero.y, 1, backgroundColor);
     }
-    else{
-        RedMoon.animations.leftWalk.stop();      
-    }
-    if(RedMoon.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+    else if(RedMoon.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
 
         itMoved = true;
-        RedMoon.animations.rightWalk.play();
+        RedMoon.hero.animations.play("rightWalk");
         RedMoon.hero.body.velocity.x = speed;
         toFollow.push({x:RedMoon.hero.x,y:RedMoon.hero.y});
-        RedMoon.bmd.circle(RedMoon.hero.x, RedMoon.hero.y, 1, backgroundColor);
     }
     else{
-        RedMoon.animations.rightWalk.stop();  
+        RedMoon.hero.animations.stop();
     }
 }
