@@ -11,7 +11,7 @@ RedMoon.game = new Phaser.Game(480, 640, Phaser.AUTO, null, {
 }); 
 
 RedMoon.hero = {};
-
+RedMoon.arrow = {};
 
 
 
